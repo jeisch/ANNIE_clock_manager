@@ -10,12 +10,13 @@ entity clock_manager is
 		clk				: in	std_logic;
 		locked_in		: in	std_logic;
 		active_clock	: in	std_logic;
-		clkloss		: in	std_logic;
+		clkloss			: in	std_logic;
 		clkbad0			: in	std_logic;
 		clkbad1			: in	std_logic;
 		-- Output ports
 		clkswitch		: out	std_logic;
 		locked			: out	std_logic;
+		sync_reset		: out	std_logic;
 		LED_status		: out	std_logic_vector(2 downto 0)
 	);
 end clock_manager;
@@ -33,9 +34,12 @@ manage_pll_proc:process(locked_in, clk) is
 	begin 
 		if(locked_in = '0') then
 			pll_state <= NOT_LOCKED;
+			locked <= '0';
+			sync_reset <= '1';
 		elsif(rising_edge(clk)) then
 			clkswitch <= '0';
 			locked <= '0';
+			sync_reset <= '1';
 			case pll_state is
 				when NOT_LOCKED =>
 					check_count := to_unsigned(0,check_count'length);
@@ -55,6 +59,7 @@ manage_pll_proc:process(locked_in, clk) is
 					end if;
 				when INTERNAL =>
 					locked <= '1';
+					sync_reset <= '0';
 					if active_clock = '0' then
 						pll_state <= CHECKING;
 					else
@@ -75,6 +80,7 @@ manage_pll_proc:process(locked_in, clk) is
 					pll_state <= CHECKING;
 				when EXTERNAL =>
 					locked <= '1';
+					sync_reset <= '0';
 					if active_clock = '1' then
 						pll_state <= CHECKING;
 					end if;

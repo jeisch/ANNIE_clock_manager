@@ -82,9 +82,16 @@ applicable agreement for further details.
 	(port
 		(pt 200 64)
 		(output)
+		(text "sync_reset" (rect 0 0 55 12)(font "Arial" ))
+		(text "sync_reset" (rect 124 59 179 71)(font "Arial" ))
+		(line (pt 200 64)(pt 184 64)(line_width 1))
+	)
+	(port
+		(pt 200 80)
+		(output)
 		(text "LED_status[2..0]" (rect 0 0 83 12)(font "Arial" ))
-		(text "LED_status[2..0]" (rect 96 59 179 71)(font "Arial" ))
-		(line (pt 200 64)(pt 184 64)(line_width 3))
+		(text "LED_status[2..0]" (rect 96 75 179 87)(font "Arial" ))
+		(line (pt 200 80)(pt 184 80)(line_width 3))
 	)
 	(drawing
 		(rectangle (rect 16 16 184 144)(line_width 1))
